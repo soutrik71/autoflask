@@ -1,0 +1,39 @@
+name: Docker Image Build&Push
+on:
+  push:
+    branches:
+      - "master"
+      - "main"
+  pull_request:
+    branches:
+      - "master"
+      - "main"
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: flaskapp
+  IMAGE_VER: v0.1
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Code checkin
+        uses: actions/checkout@v2
+
+      - name: login into Docker hub
+        uses: docker/login-actions@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Setup docker buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and Push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VER }}
