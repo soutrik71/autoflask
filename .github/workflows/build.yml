@@ -13,8 +13,6 @@ on:
 env:
   IMAGE_NAME: flaskapp
   IMAGE_VER: v0.1
-  # DOCKERHUB_USERNAME: soutrik71
-  # DOCKERHUB_TOKEN: dckr_pat_gYWOrmlTANxhhV3FSu-yDqp9xEI
 
 jobs:
   build:
